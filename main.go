@@ -1,20 +1,16 @@
-package main
+package star
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	_ "net/http/pprof"
 	"strconv"
 
+	"github.com/pkg/errors"
 	"go.starlark.net/starlark"
 	"go.starlark.net/starlarkstruct"
 )
-
-func main() {
-	thing()
-}
 
 func thing() {
 	thread := &starlark.Thread{Name: ""}
@@ -74,35 +70,8 @@ func (r *reader) Freeze()               {}
 func (r *reader) Truth() starlark.Bool  { return starlark.True }
 func (r *reader) Hash() (uint32, error) { return 0, errors.New("not hashable") }
 
-type bytes struct {
-	b []byte
-}
-
-func (r *bytes) String() string             { return fmt.Sprint(r.b) }
-func (r *bytes) Type() string               { return "bytes" }
-func (r *bytes) Freeze()                    {}
-func (r *bytes) Len() int                   { return len(r.b) }
-func (r *bytes) Truth() starlark.Bool       { return starlark.True }
-func (r *bytes) Iterate() starlark.Iterator { return &byteIterator{bytes: r} }
-func (r *bytes) Hash() (uint32, error)      { return 0, errors.New("not hashable") }
-
-type byteIterator struct {
-	*bytes
-	i int
-}
-
-func (r *byteIterator) Next(p *starlark.Value) bool {
-	if r.i > len(r.bytes.b)-1 {
-		return false
-	}
-	i := starlark.MakeInt(int(r.bytes.b[r.i]))
-	*p = &i
-	r.i++
-	return true
-}
-func (r *byteIterator) Done() {}
-
 func NewHandler(fn starlark.Value) (handle http.Handler) {
+
 	handle = http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		thread := &starlark.Thread{Name: ""}
 		request, err := starlarkstruct.Make(nil, nil, nil, []starlark.Tuple{
@@ -110,7 +79,14 @@ func NewHandler(fn starlark.Value) (handle http.Handler) {
 			{starlark.String("content_type"), starlark.String(req.Header.Get("Content-Type"))},
 			{starlark.String("method"), starlark.String(req.Method)},
 			{starlark.String("Body"), &reader{reader: req.Body}},
-			{starlark.String("some_bytes"), &bytes{b: []byte("hello world")}},
+			{starlark.String("some_ByteArray"), &ByteArray{b: []byte("hello world")}},
+			{starlark.String("error"), Error{err: errors.Wrap(errors.New("this is the error"), "this is it wrapped")}},
+			{starlark.String("sample_resp"), starlark.Tuple{
+				&ByteArray{b: []byte("hello world")},
+				Error{err: errors.Wrap(errors.New("this is the error"), "this is it wrapped")}}},
+			{starlark.String("nil_err"), starlark.Tuple{
+				&ByteArray{b: []byte("hello world")},
+				Error{err: nil}}},
 		})
 		if err != nil {
 			panic(err)
