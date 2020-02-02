@@ -19,15 +19,6 @@ if (!WebAssembly.instantiateStreaming) {
   };
 }
 
-const go = new Go();
-WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then(
-  result => {
-    let mod = result.module;
-    let inst = result.instance;
-    go.run(inst);
-  }
-);
-
 const term = new Terminal();
 term.open(document.getElementById("terminal"));
 term.toggleFullScreen();
@@ -38,6 +29,15 @@ term.writeln("(downloading and parsing wasm binary, this could take a while)");
 window.onresize = () => {
   term.fit();
 };
+
+const go = new Go();
+WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then(
+  result => {
+    let mod = result.module;
+    let inst = result.instance;
+    go.run(inst);
+  }
+);
 
 let prompt_prefix = ">>> ";
 
