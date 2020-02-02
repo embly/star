@@ -51,9 +51,20 @@ var Get = star.Function{
 	Returns:      []starlark.Value{Response, star.Error{}},
 	Call: func(args []interface{}) (resp []interface{}) {
 		resp = make([]interface{}, 2)
-		resp[0], resp[1] = http.Get(args[0].(string))
+		resp[0], resp[1] = webGet(args[0].(string))
 		return
 	},
+}
+
+// use a cors fetch mode so that the web demo will work
+// https://github.com/golang/go/wiki/WebAssembly#configuring-fetch-options-while-using-nethttp
+func webGet(url string) (resp *http.Response, err error) {
+	req, err := http.NewRequest("GET", url, nil)
+	req.Header.Add("js.fetch:mode", "cors")
+	if err != nil {
+		return
+	}
+	return http.DefaultClient.Do(req)
 }
 
 var ListenAndServe = star.Function{

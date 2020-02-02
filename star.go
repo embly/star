@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"go.starlark.net/repl"
 	"go.starlark.net/starlark"
 )
 
@@ -25,11 +24,4 @@ func RunScript(file string) (err error) {
 		return
 	}
 	return
-}
-
-func REPL() {
-	thread := &starlark.Thread{Name: ""}
-	repl.REPL(thread, starlark.StringDict{
-		"require": starlark.NewBuiltin("require", Require),
-	})
 }

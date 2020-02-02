@@ -1,0 +1,27 @@
+{
+  "name": "star-repl",
+  "version": "0.0.1",
+  "description": "a repl for star",
+  "homepage": "https://embly.github.io/star/",
+  "main": "src/app.ts",
+  "scripts": {
+    "build": "npm run go-build && parcel build src/index.html --public-url=https://embly.github.io/star/ ",
+    "go-build": "GOOS=js GOARCH=wasm go build -o ./dist/main.wasm ./src",
+    "start": "parcel serve src/index.html",
+    "test": "echo notests",
+    "deploy": "npm run build && gh-pages -d dist"
+  },
+  "author": "Max McDonnell",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime-corejs2": "^7.1.5",
+    "gh-pages": "^2.0.1",
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.1.6",
+    "xterm": "^3.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-runtime": "^7.8.3"
+  }
+}

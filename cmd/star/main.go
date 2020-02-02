@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/embly/star"
+	"github.com/embly/star/pkg/repl"
 	"github.com/embly/star/src"
 )
 
@@ -15,6 +16,6 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-	star.REPL()
+	repl.REPL()
 
 }
