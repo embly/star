@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.css"],"names":[],"mappings":"AAAA,UACI,cAAe,CACf,KAAM,CACN,QAAS,CACT,MAAO,CACP,OAAQ,CACR,UAAW,CACX,WAAY,CACZ,WACJ","file":"app.47c2c9a1.css","sourceRoot":"../src","sourcesContent":["#terminal {\n    position: fixed;\n    top: 0;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    width: auto;\n    height: auto;\n    z-index: 255;\n}\n"]}
