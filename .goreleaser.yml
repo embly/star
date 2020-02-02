@@ -1,0 +1,4 @@
+builds:
+  - #foo
+    id: "star"
+    dir: cmd/star
