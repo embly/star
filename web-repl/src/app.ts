@@ -59,8 +59,6 @@ window.term_write = val => {
 
 term.attachCustomKeyEventHandler(e => {
   let out = e.key !== "v" && !e.ctrlKey;
-  console.log(e, out);
-
   return out;
 });
 // called when go is done initializing
@@ -98,6 +96,5 @@ window.go_ready = () => {
       buffer.push(e.key);
       term.write(e.key);
     }
-    console.log(buffer.join(""));
   });
 };

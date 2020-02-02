@@ -6,8 +6,16 @@ The [intro blog post](https://embly.run/star) is likely the best place to get st
 
 ## How to use
 
+Head to the releases section to download a binary or if you have Go installed just run:
+```bash
+go get github.com/embly/star/cmd/star
+```
 
-Use Go's concurrency model:
+Star provides a python-like environment to run Go packages. A small subset of the standard library is currently supported. You can see the supported packages here: [https://github.com/embly/star/blob/master/src/packages.go](https://github.com/embly/star/blob/master/src/packages.go)
+
+Some example scripts:
+
+Use Go's concurrency model to fetch some urls in parallel:
 ```python
 http = require("net/http")
 ioutil = require("io/ioutil")
@@ -33,9 +41,9 @@ def main():
     wg = sync.WaitGroup()
     wg.Add(3)
     urls = [
-        "https://api.exchangeratesapi.io/latest",
-        "https://api.exchangeratesapi.io/latest",
-        "https://api.exchangeratesapi.io/latest",
+        "https://www.embly.run/hello/",
+        "https://www.embly.run/hello/",
+        "https://www.embly.run/hello/",
     ]
     for url in urls:
         star.go(get_url, url, wg)
@@ -48,13 +56,10 @@ Run a web server:
 ```python
 http = require("net/http")
 
-
 def hello(w, req):
     w.WriteHeader(201)
     w.Write("hello world\n")
 
-
 http.HandleFunc("/hello", hello)
-
 http.ListenAndServe(":8080", http.Hand
 ```
