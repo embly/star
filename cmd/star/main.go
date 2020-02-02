@@ -8,6 +8,6 @@ import (
 )
 
 func main() {
-	star.InitPackages(src.Packages)
+	star.AddPackages(src.Packages)
 	star.RunScript(os.Args[1])
 }

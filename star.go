@@ -1,6 +1,7 @@
 package star
 
 import (
+	"fmt"
 	"os"
 
 	"go.starlark.net/starlark"
@@ -17,6 +18,10 @@ func RunScript(file string) {
 	main := globals["main"]
 	_, err = starlark.Call(thread, main, starlark.Tuple{}, nil)
 	if err != nil {
-		panic(err)
+		if er, ok := err.(*starlark.EvalError); ok {
+			fmt.Println(er.Backtrace())
+		} else {
+			panic(err)
+		}
 	}
 }

@@ -7,7 +7,7 @@ import (
 	"go.starlark.net/starlark"
 )
 
-var Reader = star.Interface{Struct: star.Struct{
+var Reader = star.Interface{
 	Name: "io.Reader",
 	Methods: map[string]star.Method{
 		"Read": star.Method{
@@ -20,9 +20,9 @@ var Reader = star.Interface{Struct: star.Struct{
 			},
 		},
 	},
-}}
+}
 
-var ReadCloser = star.Interface{Struct: star.Struct{
+var ReadCloser = star.Interface{
 	Name: "io.ReadCloser",
 	Methods: map[string]star.Method{
 		"Read": star.Method{
@@ -43,4 +43,4 @@ var ReadCloser = star.Interface{Struct: star.Struct{
 			},
 		},
 	},
-}}
+}

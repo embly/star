@@ -9,7 +9,7 @@ import (
 )
 
 var Response = star.Struct{
-	Name: "Response",
+	TypeName: "Response",
 	Attributes: map[string]starlark.Value{
 		"Body": io.ReadCloser,
 	},

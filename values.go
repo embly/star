@@ -46,17 +46,31 @@ func makeOut(returns []starlark.Value, resp []interface{}) []starlark.Value {
 }
 
 type Struct struct {
-	Name       string
+	TypeName   string
 	Value      interface{}
+	Initialize func() interface{}
+	Print      func(interface{}) string
 	Methods    map[string]Method
 	Attributes map[string]starlark.Value
 }
 
-func (s Struct) String() string        { return s.Name }
-func (s Struct) Type() string          { return s.Name }
+func (s Struct) String() string {
+	if s.Value != nil {
+		return fmt.Sprint(s.Value)
+	} else {
+		return s.TypeName
+	}
+}
+func (s Struct) Type() string          { return s.TypeName }
+func (s Struct) Name() string          { return s.TypeName }
 func (s Struct) Freeze()               {}
 func (s Struct) Truth() starlark.Bool  { return starlark.True }
 func (s Struct) Hash() (uint32, error) { return 0, errors.New("not hashable") }
+func (s Struct) CallInternal(thread *starlark.Thread, args starlark.Tuple, kwargs []starlark.Tuple) (starlark.Value, error) {
+	copiedS := s
+	copiedS.Value = copiedS.Initialize()
+	return copiedS, nil
+}
 
 func (s Struct) AttrNames() []string {
 	out := []string{}
@@ -114,7 +128,41 @@ type Method struct {
 type MethodCall func(interface{}, []interface{}) []interface{}
 
 type Interface struct {
-	Struct
+	Name    string
+	Methods map[string]Method
+	Value   interface{}
+}
+
+func (i Interface) String() string        { return i.Name }
+func (i Interface) Type() string          { return i.Name }
+func (i Interface) Freeze()               {}
+func (i Interface) Truth() starlark.Bool  { return starlark.True }
+func (i Interface) Hash() (uint32, error) { return 0, errors.New("not hashable") }
+func (i Interface) AttrNames() []string {
+	out := []string{}
+	for name := range i.Methods {
+		out = append(out, name)
+	}
+	return out
+}
+
+func (i Interface) Attr(name string) (v starlark.Value, err error) {
+	method, ok := i.Methods[name]
+	if ok {
+		v = starlark.NewBuiltin(name, func(thread *starlark.Thread,
+			fn *starlark.Builtin, args starlark.Tuple,
+			kwargs []starlark.Tuple) (v starlark.Value, err error) {
+			values, err := ValidateArgs(method.Args, args)
+			if err != nil {
+				out := makeOut(method.Returns, make([]interface{}, len(method.Returns)))
+				out[len(out)-1] = Error{err: err}
+				return
+			}
+			resp := method.Call(i.Value, values)
+			return starlark.Tuple(makeOut(method.Returns, resp)), nil
+		})
+	}
+	return
 }
 
 type Function struct {
@@ -209,6 +257,12 @@ func underlyingValue(val starlark.Value) interface{} {
 		return v.Value
 	case starlark.String:
 		return string(v)
+	case starlark.Int:
+		i, err := starlark.AsInt32(v)
+		if err != nil {
+			panic(err)
+		}
+		return i
 	default:
 		panic(v)
 	}
