@@ -13,3 +13,7 @@ run_star_server: install
 run_star: install
 	cd cmd/star && go install
 	star
+
+
+deploy_repl:
+	cd web-repl && npm run deploy

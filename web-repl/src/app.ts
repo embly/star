@@ -66,7 +66,7 @@ window.go_ready = () => {
   term.clear();
   term.writeln("Welcome to the star repl.");
   term.writeln(
-    'Type writing some python or import a Go lib with require("net/http")'
+    'Try writing some python or import a Go lib with require("net/http")'
   );
   term.prompt = () => {
     term.write("\r\n" + prompt_prefix);
