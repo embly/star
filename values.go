@@ -201,7 +201,6 @@ func (f Function) Builtin() *starlark.Builtin {
 // ValidateArgs
 func ValidateArgs(types []starlark.Value, args starlark.Tuple) (values []interface{}, err error) {
 	// TODO: could take kwargs and check against type name
-	var i int
 
 	if len(types) != args.Len() {
 		// TODO: better error message
@@ -212,13 +211,16 @@ func ValidateArgs(types []starlark.Value, args starlark.Tuple) (values []interfa
 		return
 	}
 
-	for {
-		var val starlark.Value
-		done := args.Iterate().Next(&val)
-
+	for i := 0; i < args.Len(); i++ {
+		val := args.Index(i)
 		in, ok := val.(Interface)
 		in2, ok2 := types[i].(Interface)
 		// check if interface satisfies another
+
+		_, fnok := types[i].(*starlark.Function)
+		f2, fn2ok := val.(*starlark.Function)
+		// functions are different types
+
 		if ok && ok2 {
 			for name := range in2.Methods {
 				_, ok := in.Methods[name]
@@ -234,19 +236,21 @@ func ValidateArgs(types []starlark.Value, args starlark.Tuple) (values []interfa
 					return
 				}
 			}
+		} else if fnok && fn2ok {
+			// TODO: further checks that the functions match?
+			values = append(values, f2)
+			continue
 		} else if types[i].Type() != val.Type() {
+
 			err = errors.Errorf(
 				`argument %d is the wrong type, must `+
 					`be "%s" but got "%s"`,
 				i+1, types[i], val.Type())
 			return
 		}
-
 		values = append(values, underlyingValue(val))
-		if done {
-			return
-		}
 	}
+	return
 }
 
 func underlyingValue(val starlark.Value) interface{} {

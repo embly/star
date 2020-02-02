@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	"github.com/embly/star"
@@ -9,5 +10,11 @@ import (
 
 func main() {
 	star.AddPackages(src.Packages)
-	star.RunScript(os.Args[1])
+	if len(os.Args) > 1 {
+		if err := star.RunScript(os.Args[1]); err != nil {
+			log.Fatal(err)
+		}
+	}
+	star.REPL()
+
 }

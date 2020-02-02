@@ -19,8 +19,12 @@ var Packages = map[string]map[string]starlark.Value{
 		"ReadAll":   ioutil.ReadAll,
 	},
 	"net/http": map[string]starlark.Value{
-		"Get":      http.Get,
-		"Response": http.Response,
+		"Get":            http.Get,
+		"Response":       http.Response,
+		"ResponseWriter": http.ResponseWriter,
+		"Handler":        http.Handler,
+		"ListenAndServe": http.ListenAndServe,
+		"HandleFunc":     http.HandleFunc,
 	},
 	"sync": map[string]starlark.Value{
 		"WaitGroup": sync.WaitGroup,
