@@ -42259,8 +42259,8 @@ WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then(funct
   go.run(inst);
 });
 var term = new xterm_ts_1.default();
-term.open(document.getElementById("terminal"));
-term.toggleFullScreen();
+term.open(document.getElementById("terminal")); // term.toggleFullScreen();
+
 term.fit();
 term.writeln("loading...");
 term.writeln("(downloading and parsing wasm binary, this could take a while)");
@@ -42353,7 +42353,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34505" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43563" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

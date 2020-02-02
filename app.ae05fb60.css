@@ -1,12 +1,17 @@
-#terminal {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: auto;
-    height: auto;
-    z-index: 255;
+body {
+  background-color: #666;
+  font-family: sans-serif;
+}
+#terminal,
+#playground {
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+  z-index: 255;
 }
 
 
