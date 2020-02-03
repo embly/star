@@ -64,7 +64,12 @@ func webGet(url string) (resp *http.Response, err error) {
 	if err != nil {
 		return
 	}
-	return http.DefaultClient.Do(req)
+	resp, err = http.DefaultClient.Do(req)
+	if err != nil {
+		req.Header.Del("js.fetch:mode")
+	}
+	resp, err = http.DefaultClient.Do(req)
+	return
 }
 
 var ListenAndServe = star.Function{
