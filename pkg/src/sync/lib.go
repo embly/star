@@ -3,7 +3,7 @@ package sync
 import (
 	"sync"
 
-	"github.com/embly/star"
+	"github.com/embly/star/pkg/star"
 	"go.starlark.net/starlark"
 )
 

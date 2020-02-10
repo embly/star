@@ -2,14 +2,13 @@ package star
 
 import (
 	"fmt"
-	"os"
 
 	"go.starlark.net/starlark"
 )
 
 func RunScript(file string) (err error) {
 	thread := &starlark.Thread{Name: ""}
-	globals, err := starlark.ExecFile(thread, os.Args[1], nil, starlark.StringDict{
+	globals, err := starlark.ExecFile(thread, file, nil, starlark.StringDict{
 		"require": starlark.NewBuiltin("require", Require),
 	})
 	if err != nil {

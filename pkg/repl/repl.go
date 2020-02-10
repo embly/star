@@ -4,7 +4,7 @@ package repl
 // github.com/chzyer/readline when compiling with webassembly
 
 import (
-	"github.com/embly/star"
+	"github.com/embly/star/pkg/star"
 	"go.starlark.net/repl"
 	"go.starlark.net/starlark"
 )
