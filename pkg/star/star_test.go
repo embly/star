@@ -24,7 +24,7 @@ func TestRunScript(t *testing.T) {
 		err := RunScript("./error.star.py")
 		er := err.(*starlark.EvalError)
 		if !strings.Contains(er.Msg, "invalid literal with base 10") {
-			t.Fatal("shold error")
+			t.Fatal("should error")
 		}
 	}
 

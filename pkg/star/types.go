@@ -39,7 +39,7 @@ type Error struct {
 
 func (err Error) Type() string          { return "error" }
 func (err Error) Freeze()               {}
-func (err Error) Truth() starlark.Bool  { return starlark.Bool(err.err != nil) }
+func (err Error) Truth() starlark.Bool  { return starlark.True }
 func (err Error) Hash() (uint32, error) { return 0, errors.New("not hashable") }
 func (err Error) AttrNames() []string   { return []string{"stacktrace"} }
 
