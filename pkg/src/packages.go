@@ -1,11 +1,11 @@
 package src
 
 import (
-	"github.com/embly/star/src/io"
-	"github.com/embly/star/src/io/ioutil"
-	"github.com/embly/star/src/net/http"
-	"github.com/embly/star/src/sync"
-	"github.com/embly/star/src/time"
+	"github.com/embly/star/pkg/src/io"
+	"github.com/embly/star/pkg/src/io/ioutil"
+	"github.com/embly/star/pkg/src/net/http"
+	"github.com/embly/star/pkg/src/sync"
+	"github.com/embly/star/pkg/src/time"
 	"go.starlark.net/starlark"
 )
 

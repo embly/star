@@ -3,7 +3,7 @@ package io
 import (
 	"io"
 
-	"github.com/embly/star"
+	"github.com/embly/star/pkg/star"
 	"go.starlark.net/starlark"
 )
 

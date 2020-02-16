@@ -4,9 +4,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/embly/star"
+	"github.com/embly/star/pkg/star"
 	"github.com/embly/star/pkg/repl"
-	"github.com/embly/star/src"
+	"github.com/embly/star/pkg/src"
 )
 
 func main() {

@@ -8,8 +8,8 @@ import (
 	"strings"
 	"syscall/js"
 
-	"github.com/embly/star"
-	"github.com/embly/star/src"
+	"github.com/embly/star/pkg/star"
+	"github.com/embly/star/pkg/src"
 	"go.starlark.net/resolve"
 	"go.starlark.net/starlark"
 	"go.starlark.net/syntax"

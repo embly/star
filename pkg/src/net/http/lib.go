@@ -3,8 +3,8 @@ package http
 import (
 	"net/http"
 
-	"github.com/embly/star"
-	"github.com/embly/star/src/io"
+	"github.com/embly/star/pkg/star"
+	"github.com/embly/star/pkg/src/io"
 	"go.starlark.net/starlark"
 )
 

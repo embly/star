@@ -255,6 +255,8 @@ func ValidateArgs(types []starlark.Value, args starlark.Tuple) (values []interfa
 
 func underlyingValue(val starlark.Value) interface{} {
 	switch v := val.(type) {
+	case starlark.Bool:
+		return bool(v)
 	case Struct:
 		return v.Value
 	case Interface:
@@ -262,11 +264,11 @@ func underlyingValue(val starlark.Value) interface{} {
 	case starlark.String:
 		return string(v)
 	case starlark.Int:
-		i, err := starlark.AsInt32(v)
-		if err != nil {
-			panic(err)
+		i, exact := v.Int64()
+		if !exact {
+			panic("number could not be exactly represented")
 		}
-		return i
+		return int(i)
 	default:
 		panic(v)
 	}
